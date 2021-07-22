@@ -1,4 +1,6 @@
 const readline = require('readline');
+import {Service} from "./service";
+const service = new Service();
 
 export class Presentation{ 
     demarrer(){
@@ -15,18 +17,22 @@ export class Presentation{
                 rl.close();
                 switch (userChoice) {
                     case "1":
-                        // traitement pour afficher la liste des clients
-
-                        console.log("\nliste des clients");
+                        service.lister().then(listeCollegue =>{
+                            for (const collegue of listeCollegue){
+                                console.log(collegue.nom);
+                            }
+                        }).catch(error =>{
+                            console.log("List not found !");
+                        })
                         this.demarrer();
                         break;
-                    case "99":
-                        console.log("\nAu revoir");
-                        looper = false; 
-                        break;
-                    default: 
-                        console.log("\nVous devez tapper un chiffre correspondant au menu");
-                        this.demarrer();
+                        case "99":
+                            console.log("\nAu revoir");
+                            looper = false; 
+                            break;
+                            default: 
+                            console.log("\nVous devez tapper un chiffre correspondant au menu");
+                            this.demarrer();
                         break;
                 }
             });
